@@ -1,0 +1,107 @@
+[gd_scene load_steps=10 format=3 uid="uid://ddx7bl67bxepw"]
+
+[ext_resource type="Script" path="res://scripts/npc.gd" id="1_13j3b"]
+[ext_resource type="Texture2D" uid="uid://d7epn7yv8enb" path="res://assets/sprites/knight.png" id="2_jj5hi"]
+[ext_resource type="FontFile" uid="uid://bklq33qgeq3x7" path="res://assets/fonts/PixelOperator8.ttf" id="3_a16nb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bje0l"]
+size = Vector2(58, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ggw6"]
+atlas = ExtResource("2_jj5hi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rjn3"]
+atlas = ExtResource("2_jj5hi")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wyp2q"]
+atlas = ExtResource("2_jj5hi")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vj5w0"]
+atlas = ExtResource("2_jj5hi")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wfkxh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ggw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rjn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wyp2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vj5w0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="NPC" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_13j3b")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -22)
+shape = SubResource("RectangleShape2D_bje0l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_wfkxh")
+autoplay = "default"
+flip_h = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -81.0
+offset_top = -41.0
+offset_right = -41.0
+offset_bottom = -1.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 72.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_a16nb")
+theme_override_font_sizes/font_size = 8
+text = "...
+"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 13.0
+offset_right = 67.0
+offset_bottom = 29.0
+theme_override_fonts/font = ExtResource("3_a16nb")
+theme_override_font_sizes/font_size = 8
+text = "jawab
+"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="button_down" from="Control/Button" to="." method="_on_button_button_down"]
+[connection signal="button_up" from="Control/Button" to="." method="_on_button_button_up"]
+[connection signal="mouse_entered" from="Control/Button" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
